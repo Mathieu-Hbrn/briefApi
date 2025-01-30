@@ -24,6 +24,22 @@ app.post('/produits', (req, res) => {
     res.status(201).json(produits);
 });
 
+// PUT
+app.put('/produits/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    let produits = produits.find(produits => produits.id === id);
+
+    if (!produits) {
+        return res.status(404).json({ message: "Produit non trouvé" });
+    }
+
+    // Mise à jour des propriétés si elles sont fournies dans la requête
+    if (req.body.nom) produits.nom = req.body.nom;
+    if (req.body.prix) produits.prix = req.body.prix;
+    if (req.body.quantite) produits.quantite = req.body.quantite;
+
+    res.status(200).json(produits);
+});
 
 // Démarrage du serveur
 app.listen(port, () =>{
