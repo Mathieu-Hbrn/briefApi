@@ -27,19 +27,25 @@ app.post('/produits', (req, res) => {
 // PUT
 app.put('/produits/:id', (req, res) => {
     const id = parseInt(req.params.id);
-    let produits = produits.find(produits => produits.id === id);
+    let produit = produits.find(produits => produits.id === id);
 
-    if (!produits) {
+    if (!produit) {
         return res.status(404).json({ message: "Produit non trouvé" });
     }
 
     // Mise à jour des propriétés si elles sont fournies dans la requête
-    if (req.body.nom) produits.nom = req.body.nom;
-    if (req.body.prix) produits.prix = req.body.prix;
-    if (req.body.quantite) produits.quantite = req.body.quantite;
+    if (req.body.nom) produit.nom = req.body.nom;
+    if (req.body.prix) produit.prix = req.body.prix;
+    if (req.body.quantite) produit.quantite = req.body.quantite;
 
     res.status(200).json(produits);
 });
+
+app.delete('/produits/:id', (req,res) => {
+    const id = parseInt(req.params.id)
+    let produit = produits.find(produits => produits.id === id)
+    produits.splice(produits.indexOf(produit),1)
+    res.status(200).json(produits)})
 
 // Démarrage du serveur
 app.listen(port, () =>{
